@@ -8,7 +8,6 @@ import (
 	"github.com/go-martini/martini"
 )
 
-// Book adalah struktur data untuk mewakili buku
 type Book struct {
 	ID     string `json:"id"`
 	Title  string `json:"title"`
@@ -16,29 +15,24 @@ type Book struct {
 }
 
 var books = []Book{
-	{ID: "1", Title: "Book 1", Author: "Author 1"},
-	{ID: "2", Title: "Book 2", Author: "Author 2"},
-	// Tambahkan contoh buku lainnya di sini jika diperlukan
+	{ID: "1", Title: "Kita", Author: "Ini Author 1"},
+	{ID: "2", Title: "Dia", Author: "Ini Author 2"},
 }
 
 func main() {
-	// Initialize Martini
 	m := martini.Classic()
 
-	// Define CRUD endpoints
 	m.Get("/books", getBooks)
 	m.Get("/books/:id", getBook)
 	m.Post("/books", createBook)
 	m.Put("/books/:id", updateBook)
 	m.Delete("/books/:id", deleteBook)
 
-	// Start server
 	m.Run()
 }
 
 // getBooks mengembalikan daftar semua buku
 func getBooks() string {
-	// Convert books slice to JSON
 	booksJSON, err := json.Marshal(books)
 	if err != nil {
 		return "Error retrieving books"
@@ -70,7 +64,6 @@ func createBook(res http.ResponseWriter, req *http.Request) string {
 		http.Error(res, "Error decoding request body", http.StatusBadRequest)
 		return ""
 	}
-	// Generate unique ID for the new book (you might use a UUID library for this in a real-world scenario)
 	newBook.ID = strconv.Itoa(len(books) + 1)
 	books = append(books, newBook)
 	return "Book added successfully"
